@@ -37,7 +37,7 @@ App.get('/', (Request, Response) => Axios.get(`${Target}/apps/Blox-fruit/19901/B
     UiConf.enableSupportWidget = false;
     UiConf.enableHeader = false;
     UiConf.enableSearch = false;
-    //UiConf.mobileMenu.enabled = false;
+    UiConf.mobileMenu.enabled = false;
 
     // Disable advertisements
     PageProps.features.ads = false;
