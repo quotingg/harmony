@@ -7,7 +7,7 @@ const App = Express();
 
 // Configuration
 const MaxStreamBitrateKbps = 81000;
-const MaxFramesPerSecond = 110;
+const MaxFramesPerSecond = 150;
 const Target = "https://doctoraux.com";
 const Port = 8004;
 
