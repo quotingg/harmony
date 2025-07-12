@@ -13,5 +13,6 @@ npm run start
 
 ## roadmap
 - [x] patch up quality & fps
+- [ ] make README better
 - [ ] rework with fastify instead of using express
 - [ ] implement actual `framebufferSizeWidth` math
