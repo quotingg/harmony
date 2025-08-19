@@ -22,7 +22,7 @@ const Axia = Axios.create({
     baseURL: process.env.Target
 });
 //apps/a/19900/b.html
-Router.get("/", async (_, Response) => Axia.get("/apps/a/19900/b.html").then((Packet) => {
+Router.get("/", async (Request, Response) => Axia.get("/apps/roblox-corporation/5349/roblox.html").then((Packet) => {
 
     const Cheeri = Cheerio.load(Packet.data);
     const Package = JSON.parse(Cheeri("#__NEXT_DATA__").text());
@@ -38,6 +38,11 @@ Router.get("/", async (_, Response) => Axia.get("/apps/a/19900/b.html").then((Pa
     // Edit configuration
     PageProps.authUseThirdPartyFlow = true;
     AppInfo.authUseThirdPartyFlow = true;
+
+    // Spoof domains
+    PageProps.playDomain = Request.hostname;
+    PageProps.ssrOrigin = Request.hostname;
+    AppInfo.playDomain = Request.hostname;
 
     // TODO: fix this it introduces more overhead with traffic
     DoubleSdpModifications.forEach((Element) => PlayFeFeatures.feAnswerSdpModifications.push(Element));
