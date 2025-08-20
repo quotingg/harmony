@@ -15,6 +15,7 @@ const Ikanos = createProxyMiddleware({
         rejectUnauthorized: true,
         keepAlive: true
     }),
+    xfwd: false,
     on: {
         proxyRes: responseInterceptor(async (ResponseBuffer, _, Request) => {
             if (MatchWordToURL(Request.url, "startSession")) {
@@ -29,14 +30,14 @@ const Ikanos = createProxyMiddleware({
                     secondSessionDetected: false
                 })
 
-                return Buffer.from(JSON.stringify(Packet));
+                return JSON.stringify(Packet);
             };
 
             if (MatchWordToURL(Request.url, "_app-")) { 
                 const Primary = Resolution.Primary;
                 const Secondary = Resolution.Secondary;
 
-                return Buffer.from(ResponseBuffer.toString('utf8')
+                return ResponseBuffer.toString('utf8')
                     .replace("1280x720", `${Primary.Height}x${Primary.Width}`)
                     .replace("exact:640", `exact:${Primary.Height}`)
                     .replace("exact:480", `exact:${Primary.Width}`)
@@ -48,8 +49,19 @@ const Ikanos = createProxyMiddleware({
 
                     .replaceAll(`!1,video:{`, `!1,video:{aspectRatio:{exact:${Resolution.AspectRatio}},`)
                     .replace("{iceServers:[]}", JSON.stringify(RTCPeerConfig))
-                );
+                    .replace(`ServiceNotInRegion="2101"`, `ServiceNotInRegion="9999"`);
             };
+
+            if (MatchWordToURL(Request.url, "reportEvent")) {
+                const yay = JSON.parse(ResponseBuffer.toString('utf8'));
+
+                if (yay.clientIpInfo) {
+                    console.log("rewriting");
+                    yay.clientIpInfo.browserCode = "mobl";
+                }
+
+                return JSON.stringify(yay);
+            }
 
             return ResponseBuffer;
         })

@@ -21,8 +21,12 @@ const Axia = Axios.create({
 
     baseURL: process.env.Target
 });
-//apps/a/19900/b.html
-Router.get("/", async (Request, Response) => Axia.get("/apps/roblox-corporation/5349/roblox.html").then((Packet) => {
+
+Router.get("/", (_, Response) => {
+    Response.send(process.env.Channel);
+});
+
+Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).then((Packet) => {
 
     const Cheeri = Cheerio.load(Packet.data);
     const Package = JSON.parse(Cheeri("#__NEXT_DATA__").text());
@@ -103,6 +107,7 @@ Router.get("/", async (Request, Response) => Axia.get("/apps/roblox-corporation/
     
 }).catch((ErrorSign) => {
 
+    Logger.warn(`Malfunction on: ${Request.url}`);
     Logger.error(ErrorSign.stack);
     Response.status(500).send(`Encountered error: "${ErrorSign.message}"`);
 
