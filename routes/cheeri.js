@@ -101,6 +101,8 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
         sessionStorage.setItem("maxFps", ${FramesPerSecond});
         sessionStorage.setItem("framebufferSizeHeight", window.innerHeight);
         sessionStorage.setItem("framebufferSizeWidth",  window.innerWidth + visualViewport.offsetTop);
+
+        sessionStorage.setItem("utm_campaign", "carl");
     </script>`);
 
     Response.type("text/html").send(Cheeri.html());
