@@ -23,7 +23,6 @@ everything im planning to add sooner/later or is already added
         - [x] RTCPeerConfiguration constructor [editing](./store/configuration.js)
 - [ ] performance
     - [x] make scripts into modules
-    - [x] RTCPeerConfiguration set to `"balanced"` and `"require"` (lowers latency)
     - [x] SDP
         - [x] simulcast attribute
         - [x] scalabilityMode (SVC)

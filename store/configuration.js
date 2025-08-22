@@ -1,4 +1,4 @@
-const StreamBitrateKbps = Math.round(600000);
+const StreamBitrateKbps = Math.round(700000);
 const FramesPerSecond = Math.round(StreamBitrateKbps * 0.0022);
 
 const GoogleMaxBitrate = Math.round(StreamBitrateKbps / 3);
@@ -8,11 +8,11 @@ const GoogleMinBitrate = Math.round(7000);
 const DoubleSdpModifications = [
     {
         "pattern": "extmap:11 urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id",
-        "replacement": "a=extmap:11 urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id\r\na=extmap:12 urn:ietf:params:rtp-hdrext:fec",
+        "replacement": "a=extmap:11 urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id\r\na=extmap:12 urn:ietf:params:rtp-hdrext:fec\r\na=extmap:13 http://www.webrtc.org/experiments/rtp-hdrext/corruption-detection",
     },
     {
         "pattern": "level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42e01f",
-        "replacement": `level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42e01f;scalabilityMode=S3T3Q5;gop=${FramesPerSecond * 2.5}\r\na=x-google-max-bitrate:${GoogleMaxBitrate}\r\na=x-google-start-bitrate:${GoogleStaBitrate}\r\na=x-google-min-bitrate:${GoogleMinBitrate}\r\na=simulcast send 1;2;3 recv 4;5;6`,
+        "replacement": `level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42001F;scalabilityMode=S3T3Q5;gop=${FramesPerSecond * 2.5}\r\na=x-google-max-bitrate:${GoogleMaxBitrate}\r\na=x-google-start-bitrate:${GoogleStaBitrate}\r\na=x-google-min-bitrate:${GoogleMinBitrate}\r\na=simulcast send 1;2;3 recv 4;5;6`,
     },
 ];
 
@@ -24,15 +24,16 @@ const RTCPeerConfig = {
 };
 
 // TODO: https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints
+// keep in mind you need to change `profile-level-id`
 const Resolution = {
     Primary: {
-        Height: 4320,
-        Width: 7680
+        Height: 1080,//2160,
+        Width: 1920//3840
     },
 
     Secondary: {
-        Height: 2160,
-        Width: 3840
+        Height: 720,//1080,
+        Width: 1280//1920
     },
 
     AspectRatio: 16 / 9

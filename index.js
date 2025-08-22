@@ -18,6 +18,7 @@ const Ikados = require("./routes/ikanos.js");
 const Cheeri = require("./routes/cheeri.js");
 const Env = process.env;
 
+App.set("trust proxy", true);
 App.use(Express.urlencoded({ extended: true }));
 App.use(Compression());
 
