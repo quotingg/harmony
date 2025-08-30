@@ -4,9 +4,9 @@ require("dotenv").config({ quiet: true });
 const {
     StreamBitrateKbps,
     FramesPerSecond,
-    GoogleMaxBitrate,
-    GoogleMinBitrate,
-    DoubleSdpModifications,
+    GoogleMaxiBitrate,
+    GoogleMiniBitrate,
+    SdpModifications,
 } = require("./store/configuration.js");
 const { Logger } = require("./store/utility.js");
 
@@ -30,9 +30,9 @@ App.listen(Env.Port, () => {
     Logger.debug({
         MaximumStreamBitrateKbps: StreamBitrateKbps,
         MaximumFramesPerSecond: FramesPerSecond,
-        GoogleMaxBitrate: GoogleMaxBitrate,
-        GoogleMinBitrate: GoogleMinBitrate,
-        SDPModifications: DoubleSdpModifications
+        GoogleMaxBitrate: GoogleMaxiBitrate,
+        GoogleMinBitrate: GoogleMiniBitrate,
+        SDPModifications: SdpModifications
     }, "Dispatch configuration");
 });
 

@@ -16,28 +16,31 @@ everything im planning to add sooner/later or is already added
 
 - [ ] customizable options
     - [ ] resolution
-        - [x] RTCPeerConfiguration
-            - [x] RTCPeerConfiguration constructor [editing](./store/configuration.js)
+        - [x] editing
             - [x] advanced resolution editing using [these properties](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#instance_properties)
             - [x] simple resolution editing (aspect ratio, height, width)
-            - [ ] make double table editing to allow primary/secondary to have same properties
-        - [ ] 
+        - [x] RTCPeerConfiguration constructor [editing](./store/configuration.js)
     - [ ] other stuff
-        - [ ] add custom ice candidates and more than one
+        - [ ] ability to add custom ice candidates and more than one
 - [ ] performance
     - [x] make scripts into modules
-    - [x] SDP
+    - [ ] SDP
         - [x] simulcast attribute
         - [x] scalabilityMode (SVC)
         - [x] x-google-max/start/min
         - [x] gop (group of pictures)
-        - [x] profile-level-id (depends on the user)
-    - [x] calculations
+        - [x] corruption-detection extmap
+        - [ ] flexfec (partial)
+        - [ ] FEC-FR ssrc-group
+    - [ ] calculations
         - [x] x-google-max/start/min
         - [x] gop
         - [x] fps management
-- [ ] make routing more different (cache and on error get new asset)
+- [ ] caching
+    - [ ] make routing more different (cache /apps/ and on error get new asset)
+    - [ ] cache `SdpModifications` so we don't need to parse every request for it
 - [ ] find way around `ServiceNotInRegion (2101)` error
+- [ ] use fastify
 - [x] proper framebuffer size
 
 > [!NOTE]

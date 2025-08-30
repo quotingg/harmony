@@ -2,7 +2,7 @@ const {
     StreamBitrateKbps,
     FramesPerSecond,
 
-    DoubleSdpModifications
+    SdpModifications
 } = require("../store/configuration");
 const { Logger } = require("../store/utility");
 
@@ -43,13 +43,10 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
     PageProps.authUseThirdPartyFlow = true;
     AppInfo.authUseThirdPartyFlow = true;
 
-    // Spoof domains
-    PageProps.playDomain = Request.hostname;
-    PageProps.ssrOrigin = Request.hostname;
-    AppInfo.playDomain = Request.hostname;
+    // Remove ServerSided ads
+    AppInfo.isServerSideDesktopAdsEnabled = false;
 
-    // TODO: fix this it introduces more overhead with traffic
-    DoubleSdpModifications.forEach((Element) => PlayFeFeatures.feAnswerSdpModifications.push(Element));
+    SdpModifications.forEach((Element) => PlayFeFeatures.feAnswerSdpModifications.push(Element));
     PlayFeFeatures.enablePlayModeWithPd = true;
     PlayFeFeatures.enableAiScreenshot = false;
     PlayFeFeatures.enableAiBot = false;
@@ -99,10 +96,13 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
     Cheeri("body").append(`<script>
         sessionStorage.setItem("maxStreamBitrateKbps", ${StreamBitrateKbps});
         sessionStorage.setItem("maxFps", ${FramesPerSecond});
-        sessionStorage.setItem("framebufferSizeHeight", window.innerHeight);
-        sessionStorage.setItem("framebufferSizeWidth",  window.innerWidth + visualViewport.offsetTop);
-
         sessionStorage.setItem("utm_campaign", "carl");
+        sessionStorage.setItem("utm_source", "ganit");
+
+        window.addEventListener("resize", () => {
+            sessionStorage.setItem("framebufferSizeHeight", window.innerHeight);
+            sessionStorage.setItem("framebufferSizeWidth",  window.innerWidth + visualViewport.offsetTop);
+        })
     </script>`);
 
     Response.type("text/html").send(Cheeri.html());
