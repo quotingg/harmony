@@ -5,6 +5,5 @@ const Logger = require("pino")({
 
 module.exports = {
     Logger,
-    GenUfrag,
     MatchWordToURL
 };
