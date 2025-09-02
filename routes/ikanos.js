@@ -22,6 +22,7 @@ const Ikanos = createProxyMiddleware({
 
                 for (let i = 0; i < SdpModifications.length; i++) {
                     let RegMod = new RegExp(SdpModifications[i].pattern, "gm");
+                    
                     Packet.offerSdp = Packet.offerSdp?.replace(
                         RegMod,
                         SdpModifications[i].replacement

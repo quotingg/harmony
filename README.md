@@ -30,8 +30,10 @@ everything im planning to add sooner/later or is already added
         - [x] x-google-max/start/min
         - [x] gop (group of pictures)
         - [x] corruption-detection extmap
-        - [ ] flexfec (partial)
-        - [ ] FEC-FR ssrc-group
+        - [ ] flexfec
+            - [ ] FEC-FR ssrc-group
+            - [ ] adaptive redundancy
+            - [x] base declaration
     - [ ] calculations
         - [x] x-google-max/start/min
         - [x] gop
@@ -41,6 +43,8 @@ everything im planning to add sooner/later or is already added
     - [ ] cache `SdpModifications` so we don't need to parse every request for it
 - [ ] find way around `ServiceNotInRegion (2101)` error
 - [ ] use fastify
+- [ ] maybe add docs
+- [ ] change / to be a working frontend
 - [x] proper framebuffer size
 
 > [!NOTE]

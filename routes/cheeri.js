@@ -66,6 +66,8 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
         }
     };
 
+    Features.enableHotjar = false;
+
     Object.assign(UiConfig, {
         ...UiConfig,
         enableIframeHeader: false,
@@ -84,7 +86,6 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
         }
     })
 
-    Features.enableHotjar = false;
 
     // Pre-apply edits
     Cheeri("head").append(`<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">`);
@@ -109,9 +110,8 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
     
 }).catch((ErrorSign) => {
 
-    Logger.warn(`Malfunction on: ${Request.url}`);
-    Logger.error(ErrorSign.stack);
-    Response.status(500).send(`Encountered error: "${ErrorSign.message}"`);
+    Logger.error(ErrorSign.stack, Request.url);
+    Response.status(500).send(`Encountered error: "${ErrorSign.message}" on ${Request.url}`);
 
 }));
 

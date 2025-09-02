@@ -3,7 +3,7 @@ const FramesPerSecond = Math.round(StreamBitrateKbps * 0.0022);
 
 const GoogleMaxiBitrate = Math.round(StreamBitrateKbps / 3);
 const GoogleMiniBitrate = Math.round(7000);
-const GoogleStrtBitrate = Math.round(GoogleMiniBitrate * 2.5);
+const GoogleStrtBitrate = Math.round(GoogleMiniBitrate * 2.5); //2.5
 const GroupOfPictures = Math.round(FramesPerSecond * 2.4);
 
 const SdpModifications = [
@@ -22,7 +22,11 @@ const SdpModifications = [
     // https://datatracker.ietf.org/doc/html/rfc5109
     {
         "pattern": "ulpfec/90000",
-        "replacement": "flexfec/90000\r\na=fmtp:107 max-repair-attempts=5; max-repair-bytes=1700; ToP=4\r\na=rtcp-fb:107 nack\r\na=rtcp-fb:107 nack pli"
+        "replacement": "flexfec/90000\r\na=fmtp:107 max-repair-attempts=5; max-repair-bytes=1700; ToP=4; R=4\r\na=rtcp-fb:107 nack\r\na=rtcp-fb:107 nack pli"
+    },
+    {
+        "pattern": "a=rtpmap:(\\d+) rtx\\/90000",
+        "replacement": "a=rtpmap:$1 rtx/90000\r\na=rtcp-fb:$1 nack\r\na=rtcp-fb:$1 pli"
     },
     {
         "pattern": "t=0 0",
