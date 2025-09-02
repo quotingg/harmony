@@ -3,7 +3,7 @@ const FramesPerSecond = Math.round(StreamBitrateKbps * 0.0022);
 
 const GoogleMaxiBitrate = Math.round(StreamBitrateKbps / 3);
 const GoogleMiniBitrate = Math.round(7000);
-const GoogleStrtBitrate = Math.round(GoogleMiniBitrate * 2.5); //2.5
+const GoogleStrtBitrate = Math.round(GoogleMiniBitrate * 2.5);
 const GroupOfPictures = Math.round(FramesPerSecond * 2.4);
 
 const SdpModifications = [
