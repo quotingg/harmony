@@ -41,8 +41,7 @@ everything im planning to add sooner/later or is already added
 - [ ] caching
     - [ ] make routing more different (cache /apps/ and on error get new asset)
     - [ ] cache `SdpModifications` so we don't need to parse every request for it
-- [ ] find way around `ServiceNotInRegion (2101)` error
-- [ ] use fastify
+- [x] use fastify
 - [ ] maybe add docs
 - [ ] change / to be a working frontend
 - [x] proper framebuffer size

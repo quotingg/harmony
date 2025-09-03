@@ -30,7 +30,7 @@ const SdpModifications = [
     },
     {
         "pattern": "t=0 0",
-        "replacement": "t=0 0\r\na=interleaved:0-1"
+        "replacement": "t=0 0\r\na=interleaved:0-2"
     }
 ];
 

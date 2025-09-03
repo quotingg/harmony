@@ -11,21 +11,22 @@ const {
 const { Logger } = require("./store/utility.js");
 
 const Compression = require("compression");
+const Fastify = require('fastify')({ trustProxy: true });
 const Express = require('express');
-const App = Express();
 
 const Ikados = require("./routes/ikanos.js");
 const Cheeri = require("./routes/cheeri.js");
 const Env = process.env;
 
-App.set("trust proxy", true);
-App.use(Express.urlencoded({ extended: true }));
-App.use(Compression());
+Fastify.register(require('@fastify/express')).after(() => {
+    Fastify.use(Express.urlencoded({ extended: true }));
+    Fastify.use(Compression({ level: 9 }));
 
-App.use("/", Cheeri);
-App.use(Ikados);
+    Fastify.use("/", Cheeri);
+    Fastify.use(Ikados);
+});
 
-App.listen(Env.Port, () => {
+Fastify.listen({ port: Env.Port }, () => {
     Logger.info(`Running server on port ${Env.Port} with Channel: ${Env.Channel}`);
     Logger.debug({
         MaximumStreamBitrateKbps: StreamBitrateKbps,
@@ -38,5 +39,5 @@ App.listen(Env.Port, () => {
 
 // https://expressjs.com/advanced/healthcheck-graceful-shutdown.html
 process.addListener('SIGTERM', () => {
-    App.close();
+    Fastify.close();
 });
