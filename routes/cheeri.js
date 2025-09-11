@@ -26,12 +26,12 @@ Router.get("/", (_, Response) => {
     Response.send(process.env.Channel);
 });
 
-Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).then((Packet) => {
+Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.path).then((Packet) => {
 
     const Cheeri = Cheerio.load(Packet.data);
     const Package = JSON.parse(Cheeri("#__NEXT_DATA__").text());
 
-    // Declare endpoints
+    // Declare points
     const PageProps = Package.props.pageProps;
     const AppInfo = PageProps.appInfo;
 
@@ -43,7 +43,7 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
     PageProps.authUseThirdPartyFlow = true;
     AppInfo.authUseThirdPartyFlow = true;
 
-    // Remove ServerSided ads
+    // Remove Serversided ads
     AppInfo.isServerSideDesktopAdsEnabled = false;
 
     SdpModifications.forEach((Element) => PlayFeFeatures.feAnswerSdpModifications.push(Element));
@@ -83,9 +83,8 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
         footer: {
             enabled: false,
             enableBrandLogo: false,
-        }
+        },
     })
-
 
     // Pre-apply edits
     Cheeri("head").append(`<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">`);
@@ -98,7 +97,6 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
         sessionStorage.setItem("maxStreamBitrateKbps", ${StreamBitrateKbps});
         sessionStorage.setItem("maxFps", ${FramesPerSecond});
         sessionStorage.setItem("utm_campaign", "carl");
-        sessionStorage.setItem("utm_source", "ganit");
 
         window.addEventListener("resize", () => {
             sessionStorage.setItem("framebufferSizeHeight", window.innerHeight);
@@ -110,8 +108,8 @@ Router.get("/apps/*.html", async (Request, Response) => Axia.get(Request.url).th
     
 }).catch((ErrorSign) => {
 
-    Logger.error(ErrorSign.stack, Request.url);
-    Response.status(500).send(`Encountered error: "${ErrorSign.message}" on ${Request.url}`);
+    Logger.error(ErrorSign.stack, Request.path);
+    Response.status(500).send(`Encountered error: "${ErrorSign.message}" on ${Request.path}`);
 
 }));
 

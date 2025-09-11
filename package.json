@@ -4,6 +4,7 @@
     "author": "quotingg (https://github.com/quotingg)",
     "description": "a now.gg reverse proxy",
     "dependencies": {
+        "@fastify/caching": "^9.0.3",
         "@fastify/express": "^4.0.2",
         "@types/express": "^5.0.3",
         "axios": "^1.7.9",

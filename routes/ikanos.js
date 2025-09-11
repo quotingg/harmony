@@ -3,7 +3,11 @@ const {
     RTCPeerConfig,
     Resolution
 } = require("../store/configuration");
-const { createProxyMiddleware, responseInterceptor } = require('http-proxy-middleware');
+const {
+    createProxyMiddleware,
+    responseInterceptor
+} = require('http-proxy-middleware');
+
 const { MatchWordToURL } = require("../store/utility");
 
 const Https = require("node:https");
@@ -18,18 +22,24 @@ const Ikanos = createProxyMiddleware({
     on: {
         proxyRes: responseInterceptor(async (ResponseBuffer, _, Request) => {
             if (MatchWordToURL(Request.url, "startSession")) {
-                const Packet = JSON.parse(ResponseBuffer.toString('utf-8'));
+                const SessionPacket = JSON.parse(ResponseBuffer.toString('utf-8'));
 
                 for (let i = 0; i < SdpModifications.length; i++) {
-                    let RegMod = new RegExp(SdpModifications[i].pattern, "gm");
+                    const { pattern: Pattern, replacement: Replacement} = SdpModifications[i];
+                    const Recognition = new RegExp(Pattern, "gm");
                     
-                    Packet.offerSdp = Packet.offerSdp?.replace(
-                        RegMod,
-                        SdpModifications[i].replacement
+                    SessionPacket.offerSdp = SessionPacket.offerSdp?.replace(
+                        Recognition,
+                        Replacement
                     );
                 }
 
-                return JSON.stringify(Packet);
+                Object.assign(SessionPacket, {
+                    ...SessionPacket,
+                    secondSessionDetected: false,
+                });
+
+                return JSON.stringify(SessionPacket);
             };
 
             if (MatchWordToURL(Request.url, "1390")) {
@@ -66,8 +76,8 @@ const Ikanos = createProxyMiddleware({
                     .replace(`{audio:!1,video:{width:{exact:640},height:{exact:480}}}`, JSON.stringify(Primary))
                     .replace(`{audio:!1,video:{width:{exact:320},height:{exact:240}}}`, JSON.stringify(Secondary))
 
-                    .replace("=320", `=${SWidth}`)
-                    .replace("=240", `=${SHeight}`)
+                    .replace("=320", `=${SHeight}`)
+                    .replace("=240", `=${SWidth}`)
 
                     .replace("{iceServers:[]}", JSON.stringify(RTCPeerConfig))
             };

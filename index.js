@@ -11,6 +11,7 @@ const {
 const { Logger } = require("./store/utility.js");
 
 const Compression = require("compression");
+const Caching = require("@fastify/caching");
 const Fastify = require('fastify')({ trustProxy: true });
 const Express = require('express');
 
@@ -18,9 +19,14 @@ const Ikados = require("./routes/ikanos.js");
 const Cheeri = require("./routes/cheeri.js");
 const Env = process.env;
 
+Fastify.register(Caching, {
+    privacy: Caching.privacy.FOREVER,
+    expiresIn: 3600,
+});
+
 Fastify.register(require('@fastify/express')).after(() => {
     Fastify.use(Express.urlencoded({ extended: true }));
-    Fastify.use(Compression({ level: 9 }));
+    Fastify.use(Compression({ level: 8 }));
 
     Fastify.use("/", Cheeri);
     Fastify.use(Ikados);
